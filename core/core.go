@@ -73,6 +73,28 @@ func SendNotificationToSingleDevice(message string, badge int, sound string, tok
 	return json.Marshal(res)
 }
 
+func UnregisterDevice(token string) {
+	session, err := mgo.Dial(server)
+
+	if err != nil {
+		panic(err)
+	}
+
+	defer session.Close()
+
+	// Optional. Switch the session to a monotonic behavior.
+	session.SetMode(mgo.Monotonic, true)
+
+	if checkIfDeviceIsAlreadyRegisted(token) {
+		c := session.DB(db).C(collection)
+		err = c.Remove(bson.M{"devicetoken": token})
+
+		if err != nil {
+			panic(err)
+		}
+	}
+}
+
 func RegisterDevice(token string) {
 	session, err := mgo.Dial(server)
 

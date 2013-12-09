@@ -9,7 +9,8 @@ import (
 
 type Result struct {
 	Result interface{} `json:",omitempty"`
-	Error  error       `json:"error,omitempty"`
+	Error  string      `json:",omitempty"`
+	Time   string
 }
 
 func RegisterDevice(w http.ResponseWriter, r *http.Request) {
@@ -18,6 +19,14 @@ func RegisterDevice(w http.ResponseWriter, r *http.Request) {
 
 	r.ParseForm()
 	core.RegisterDevice(r.PostFormValue("token"))
+}
+
+func UnregisterDevice(w http.ResponseWriter, r *http.Request) {
+
+	log.Println("Unregister device...")
+
+	r.ParseForm()
+	core.UnregisterDevice(r.PostFormValue("token"))
 }
 
 func getDeviceList(w http.ResponseWriter, r *http.Request) {

@@ -18,6 +18,7 @@ func main() {
 	m := mux.NewRouter()
 
 	m.HandleFunc("/device/register", api.RegisterDevice).Methods("POST")
+	m.HandleFunc("/device/unregister", api.UnregisterDevice).Methods("POST")
 
 	m.HandleFunc("/notification/send", api.SendNotification).Methods("POST")
 
